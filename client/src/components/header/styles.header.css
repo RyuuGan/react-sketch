@@ -1,0 +1,13 @@
+.header {
+  width: 100%;
+}
+
+.header-flex {
+  flex: 1;
+  text-align: left;
+}
+
+.header-menu {
+  margin-left: -12px;
+  margin-right: 20px;
+}

@@ -1,0 +1,13 @@
+
+.login-form {
+  max-width: 600px;
+  margin: 3rem auto 0;
+}
+
+.flex-fill {
+  flex: 1;
+}
+
+.login-form button + button {
+  margin-left: 1.6rem;
+}
