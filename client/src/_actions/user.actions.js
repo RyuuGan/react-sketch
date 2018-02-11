@@ -5,6 +5,7 @@ import { history } from '../store';
 
 export const userActions = {
   login,
+  clearLoginError,
   logout,
   register,
   fetchPrincipal
@@ -34,17 +35,16 @@ function fetchPrincipal() {
   }
 }
 
-function login(username, password) {
+function login(email, password) {
   return dispatch => {
-    dispatch(request({ username }));
+    dispatch(request({ username: email }));
 
     authService
       .login({
-        username,
+        email,
         password
       }).then(user => {
         dispatch(success(user));
-        history.push('/');
       }, error => {
         dispatch(failure(error));
         dispatch(alertActions.error(error));
@@ -52,8 +52,8 @@ function login(username, password) {
     );
   };
 
-  function request(user) {
-    return { type: userConstants.LOGIN_REQUEST, user }
+  function request(credentials) {
+    return { type: userConstants.LOGIN_REQUEST, credentials }
   }
 
   function success(user) {
@@ -99,4 +99,16 @@ function register(user) {
   function failure(error) {
     return { type: userConstants.REGISTER_FAILURE, error }
   }
+}
+
+function clearLoginError() {
+  return dispatch => {
+    dispatch(request());
+
+  };
+
+  function request() {
+    return { type: userConstants.CLEAR_LOGIN_ERROR }
+  }
+
 }

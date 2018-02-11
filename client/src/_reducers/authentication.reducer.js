@@ -15,7 +15,9 @@ export function authentication(state = initialState, action) {
         user: action.user
       };
     case userConstants.LOGIN_FAILURE:
-      return {};
+      return {
+        error: action.error
+      };
     case userConstants.LOGOUT:
       return {};
 
@@ -25,12 +27,15 @@ export function authentication(state = initialState, action) {
       };
     case userConstants.PRINCIPAL_SUCCESS:
       return {
+        userFetched: true,
         user: action.user
       };
     case userConstants.PRINCIPAL_FAILURE:
       return {
         userFetched: true
       };
+    case userConstants.CLEAR_LOGIN_ERROR:
+      return {};
     default:
       return state
   }

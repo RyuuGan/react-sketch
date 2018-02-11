@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Card, { CardActions, CardContent, CardHeader } from 'material-ui/Card';
 import Button from 'material-ui/Button';
+import Snackbar from 'material-ui/Snackbar';
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 
 import { userActions } from '../../../_actions';
@@ -21,11 +22,16 @@ class LoginPage extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCloseSnackbar = this.handleCloseSnackbar.bind(this);
   }
 
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({ [name]: value });
+  }
+
+  handleCloseSnackbar() {
+    this.props.clearLoginError();
   }
 
   handleSubmit(e) {
@@ -40,8 +46,23 @@ class LoginPage extends React.Component {
 
   render() {
     const { username, password } = this.state;
+    const { error } = this.props;
+    const isOpen = error && error.code === 'USER_NOT_FOUND';
     return (
       <div>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          autoHideDuration={6000}
+          onClose={this.handleCloseSnackbar}
+          open={isOpen}
+          SnackbarContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">User not found.</span>}
+        />
         <ValidatorForm ref="form"
                        onSubmit={this.handleSubmit}>
           <Card className="login-form">
@@ -88,14 +109,16 @@ class LoginPage extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const { loggingIn } = state.authentication;
+  const { loggingIn, error } = state.authentication;
   return {
-    loggingIn
+    loggingIn,
+    error
   };
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  login: userActions.login
+  login: userActions.login,
+  clearLoginError: userActions.clearLoginError
 }, dispatch);
 
 const connectedLoginPage = connect(mapStateToProps, mapDispatchToProps)(LoginPage);

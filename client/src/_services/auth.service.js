@@ -1,4 +1,5 @@
 import api from '../utils/api';
+import { ServerError } from '../utils/error';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import 'rxjs/add/operator/catch';
@@ -147,6 +148,7 @@ class AuthService {
   processServerLogin(body) {
     if (body.error) {
       this.logout();
+      throw new ServerError(body);
     } else {
       AuthService.setAuthToken(body.results.authToken);
       this.setPrincipal(body.results.user);
