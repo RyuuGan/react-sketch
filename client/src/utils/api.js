@@ -10,6 +10,7 @@ class ApiHelper {
   static secured = conf.secured;
 
   static makeUrl(endpoint, prefix = '') {
+    console.log(conf);
     const _endpoint = endpoint.replace(/^\//, '');
     const _prefix = prefix ? prefix.replace(/^\//, '') + '/' : '';
     return conf.apiOrigin + '/api/' + _prefix + ApiHelper.version + '/' + _endpoint;

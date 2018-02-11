@@ -1,11 +1,14 @@
+
+console.log(process.env);
+
 class Conf {
   production = false;
   test = false;
   locales = ['ru'];
 
-  apiHost = process.env.apiHost;
-  host = process.env.host;
-  secured = process.env.secured;
+  apiHost = process.env.REACT_APP_API_HOST;
+  host = process.env.REACT_APP_HOST;
+  secured = process.env.REACT_APP_SECURED === 'true';
 
   get apiOrigin() {
     return this.secured ? 'https://' + this.apiHost : 'http://' + this.apiHost;

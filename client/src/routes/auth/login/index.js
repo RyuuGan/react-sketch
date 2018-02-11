@@ -33,9 +33,8 @@ class LoginPage extends React.Component {
 
     this.setState({ submitted: true });
     const { username, password } = this.state;
-    const { dispatch } = this.props;
     if (username && password) {
-      dispatch(userActions.login(username, password));
+      this.props.login(username, password);
     }
   }
 
@@ -50,18 +49,17 @@ class LoginPage extends React.Component {
             </CardHeader>
             <CardContent>
               <TextValidator
-                required
                 id="username"
                 name="username"
                 label="Username"
                 value={username}
                 fullWidth
                 onChange={this.handleChange}
-                margin="normal"
                 validators={['required']}
+                errorMessages={['This field is required']}
+                margin="normal"
               />
               <TextValidator
-                required
                 id="password"
                 name="password"
                 label="Password"
@@ -70,6 +68,7 @@ class LoginPage extends React.Component {
                 fullWidth
                 onChange={this.handleChange}
                 validators={['required']}
+                errorMessages={['This field is required']}
               />
             </CardContent>
             <CardActions>
@@ -95,7 +94,9 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({
+  login: userActions.login
+}, dispatch);
 
 const connectedLoginPage = connect(mapStateToProps, mapDispatchToProps)(LoginPage);
 export { connectedLoginPage as LoginPage };
