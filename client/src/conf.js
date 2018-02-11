@@ -1,6 +1,3 @@
-
-console.log(process.env);
-
 class Conf {
   production = false;
   test = false;
