@@ -1,9 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Card, { CardActions, CardContent, CardHeader } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Snackbar from 'material-ui/Snackbar';
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
+import { history } from '../../../store';
 
 import { userActions } from '../../../_actions';
 import { bindActionCreators } from 'redux';
@@ -15,7 +17,7 @@ class LoginPage extends React.Component {
     super(props);
 
     this.state = {
-      username: '',
+      email: '',
       password: '',
       submitted: false
     };
@@ -38,15 +40,18 @@ class LoginPage extends React.Component {
     e.preventDefault();
 
     this.setState({ submitted: true });
-    const { username, password } = this.state;
-    if (username && password) {
-      this.props.login(username, password);
+    const { email, password } = this.state;
+    if (email && password) {
+      this.props.login(email, password);
     }
   }
 
   render() {
-    const { username, password } = this.state;
-    const { error } = this.props;
+    const { email, password } = this.state;
+    const { error, user } = this.props;
+    if (user) {
+      history.push('/my');
+    }
     const isOpen = error && error.code === 'USER_NOT_FOUND';
     return (
       <div>
@@ -70,10 +75,10 @@ class LoginPage extends React.Component {
             </CardHeader>
             <CardContent>
               <TextValidator
-                id="username"
-                name="username"
-                label="Username"
-                value={username}
+                id="email"
+                name="email"
+                label="Email"
+                value={email}
                 fullWidth
                 onChange={this.handleChange}
                 validators={['required']}
@@ -98,7 +103,9 @@ class LoginPage extends React.Component {
                       type="submit"
                       size="small"
                       color="primary">Login</Button>
-              <Button size="small">Sign up</Button>
+              <Button size="small"
+                      to='/auth/signup'
+                      component={Link}>Sign up</Button>
               <div className="flex-fill"/>
             </CardActions>
           </Card>
@@ -109,10 +116,11 @@ class LoginPage extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const { loggingIn, error } = state.authentication;
+  const { loggingIn, error, user } = state.authentication;
   return {
     loggingIn,
-    error
+    error,
+    user
   };
 };
 
