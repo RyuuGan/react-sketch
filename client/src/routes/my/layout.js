@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link, Redirect, Route, Switch } from 'react-router-dom';
+import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import { MyDashboard } from './dashboard';
 
 import Hidden from 'material-ui/Hidden';
@@ -38,6 +38,9 @@ const styles = theme => ({
       height: '100%'
     }
   },
+  drawerActive: {
+    background: '#f3f3f3'
+  },
   content: {
     backgroundColor: theme.palette.background.default,
     width: '100%',
@@ -71,12 +74,14 @@ class MyLayout extends React.Component {
       <div>
         <List>
           <ListItem button
-                    component={Link}
+                    component={NavLink}
                     to='/my/dashboard'
+                    activeClassName={classes.drawerActive}
                     onClick={this.handleDrawerToggle}>Dashboard</ListItem>
           <ListItem button
-                    component={Link}
+                    component={NavLink}
                     to='/my/users'
+                    activeClassName={classes.drawerActive}
                     onClick={this.handleDrawerToggle}>Users</ListItem>
         </List>
         <Divider/>
