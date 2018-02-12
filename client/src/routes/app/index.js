@@ -20,16 +20,14 @@ class App extends React.Component {
     return (
       <div className="App">
         <Header/>
-        <main>
-          <Switch>
-            <Route exact path="/" component={Home}/>
-            <Redirect exact from="/auth" to="/auth/login"/>
-            <Route exact path="/auth/login" component={LoginPage}/>
-            <Route exact path="/auth/signup" component={SignupPage}/>
-            <PrivateRoute path="/my" component={MyLayout}/>
-            <Route component={NotFoundPage}/>
-          </Switch>
-        </main>
+        <Switch>
+          <Route exact path="/" component={Home}/>
+          <Redirect exact from="/auth" to="/auth/login"/>
+          <Route exact path="/auth/login" component={LoginPage}/>
+          <Route exact path="/auth/signup" component={SignupPage}/>
+          <PrivateRoute path="/my" component={MyLayout}/>
+          <Route component={NotFoundPage}/>
+        </Switch>
       </div>
     );
   }

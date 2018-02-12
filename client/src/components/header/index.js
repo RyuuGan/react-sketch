@@ -18,11 +18,15 @@ class Header extends React.Component {
     return <div className="header">
       <AppBar position="static">
         <Toolbar>
-          <IconButton className="header-menu"
-                      color="inherit"
-                      aria-label="Menu">
-            <Icon>menu</Icon>
-          </IconButton>
+          {
+            this.props.fn &&
+            <IconButton className="header-menu"
+                        color="inherit"
+                        onClick={this.props.fn}
+                        aria-label="Menu">
+              <Icon>menu</Icon>
+            </IconButton>
+          }
           <Typography variant="title" color="inherit" className="header-flex">
 
             Title
@@ -39,8 +43,10 @@ class Header extends React.Component {
 
 function mapStateToProps(state) {
   const { user } = state.authentication;
+  const { fn } = state.header;
   return {
-    user
+    user,
+    fn
   };
 }
 
