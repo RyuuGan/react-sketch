@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { userActions } from '../../../_actions';
+import { userActions } from '../../../../_actions/index';
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 import Card, { CardActions, CardContent, CardHeader } from 'material-ui/Card';
 import Button from 'material-ui/Button';

@@ -6,7 +6,7 @@ import Button from 'material-ui/Button';
 import Snackbar from 'material-ui/Snackbar';
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 
-import { userActions } from '../../../_actions';
+import { userActions } from '../../../../_actions/index';
 import { bindActionCreators } from 'redux';
 
 import './login.css';

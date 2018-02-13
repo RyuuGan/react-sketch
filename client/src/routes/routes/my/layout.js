@@ -2,16 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
-import { MyDashboard } from './dashboard';
+import { MyDashboard } from './dashboard/index';
 
 import Hidden from 'material-ui/Hidden';
 import Divider from 'material-ui/Divider';
 import { withStyles } from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
 import List, { ListItem } from 'material-ui/List';
-import { NotFoundPage } from '../notFoundPage';
+import { NotFoundPage } from '../../notFoundPage';
 import { bindActionCreators } from 'redux';
-import { headerActions } from '../../_actions';
+import { headerActions } from '../../../_actions/index';
 
 const drawerWidth = 240;
 
