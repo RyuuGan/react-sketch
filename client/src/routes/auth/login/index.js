@@ -1,11 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Card, { CardActions, CardContent, CardHeader } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Snackbar from 'material-ui/Snackbar';
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
-import { history } from '../../../store';
 
 import { userActions } from '../../../_actions';
 import { bindActionCreators } from 'redux';
@@ -19,7 +18,8 @@ class LoginPage extends React.Component {
     this.state = {
       email: '',
       password: '',
-      submitted: false
+      submitted: false,
+      redirectToReferrer: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -49,9 +49,13 @@ class LoginPage extends React.Component {
   render() {
     const { email, password } = this.state;
     const { error, user } = this.props;
+
+    const { from } = this.props.location.state || { from: { pathname: '/my' } };
+
     if (user) {
-      history.push('/my');
+      return <Redirect to={from} />;
     }
+
     const isOpen = error && error.code === 'USER_NOT_FOUND';
     return (
       <div>
