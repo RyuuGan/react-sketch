@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -7,9 +8,6 @@ import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import Icon from 'material-ui/Icon';
 import Hidden from 'material-ui/Hidden';
-
-import { bindActionCreators } from 'redux';
-import { push } from 'react-router-redux';
 
 import './styles.header.css';
 
@@ -36,8 +34,16 @@ class Header extends React.Component {
           </Typography>
           {!this.props.user && (
             <Button color="inherit"
-                    onClick={() => this.props.toLoginPage()}>Login</Button>
+                    to='/auth/login'
+                    component={Link}>Login</Button>
           )}
+          {
+            this.props.user && (
+              <Button color="inherit"
+                      to='/my'
+                      component={Link}>my</Button>
+            )
+          }
         </Toolbar>
       </AppBar>
     </div>
@@ -53,10 +59,6 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  toLoginPage: () => push('/auth/login')
-}, dispatch);
-
-let connectedHeader = connect(mapStateToProps, mapDispatchToProps)(Header);
+let connectedHeader = connect(mapStateToProps)(Header);
 
 export { connectedHeader as Header }
