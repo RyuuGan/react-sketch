@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import 'rxjs/add/operator/catch';
 
-class AuthService {
+export class AuthService {
   principal = null;
 
   authenticated = false;

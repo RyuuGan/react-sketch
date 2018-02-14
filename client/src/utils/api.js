@@ -7,7 +7,6 @@ import conf from '../conf';
  */
 class ApiHelper {
   static version = 'v1';
-  static secured = conf.secured;
 
   static makeUrl(endpoint, prefix = '') {
     const _endpoint = endpoint.replace(/^\//, '');
