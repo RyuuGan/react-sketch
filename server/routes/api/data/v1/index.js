@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express')
+  , User = require('../../../../model/user')
   , authMiddleware = require('../../../middleware/auth');
 
 const router = module.exports = new express.Router();
@@ -23,4 +24,13 @@ router.get('/test', function (req, res) {
   return res.apiSuccess({
     data: ['Hello', 'World']
   });
+});
+
+router.get('/users', function (req, res, next) {
+  User
+    .paginate({})
+    .exec(function (err, results) {
+      if (err) return next(err);
+      res.apiSuccess(results);
+    });
 });

@@ -1,13 +1,15 @@
 import { userConstants } from '../_constants';
 import { authService, userService } from '../_services';
 import { history } from '../store';
+import { CALL_API } from '../_middlewares/api';
 
 export const userActions = {
   login,
   clearLoginError,
   logout,
   register,
-  fetchPrincipal
+  fetchPrincipal,
+  loadUsers
 };
 
 function fetchPrincipal() {
@@ -110,4 +112,17 @@ function clearLoginError() {
     return { type: userConstants.CLEAR_LOGIN_ERROR }
   }
 
+}
+
+export function loadUsers() {
+  return dispatch => {
+    dispatch({
+      [CALL_API]: {
+        type: userConstants.USERS_LIST,
+        endpoint: '/users',
+        apiPrefix: 'data',
+        method: 'GET'
+      }
+    });
+  }
 }

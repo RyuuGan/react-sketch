@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
 import counter from './counter';
-import { authentication, data, header, registration } from '../_reducers';
+import { authentication, data, users, header, registration } from '../_reducers';
 
 export default combineReducers({
   routing: routerReducer,
@@ -10,5 +10,6 @@ export default combineReducers({
   authentication,
   data,
   registration,
-  header
+  header,
+  users
 });
