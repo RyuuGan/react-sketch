@@ -1,22 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { dataActions } from '../../../../_actions';
+import { userActions } from '../../../../_actions';
 
-class MyDashboard extends React.Component {
+class MyUsers extends React.Component {
 
   componentDidMount() {
-    this.props.loadData();
+    this.props.loadUsers();
   }
 
   render() {
     return (
       <div>
-        <h1>Dashboard</h1>
+        <h1>Users</h1>
 
         {this.props.loaded && !this.props.error &&
         <ul>
-          {this.props.data.map(m => <li key={m}>{m}</li>)}
+          {this.props.data.items.map(u => <li key={u._id}>{u.title}</li>)}
         </ul>
         }
       </div>
@@ -25,7 +25,7 @@ class MyDashboard extends React.Component {
 }
 
 const mapStateToProps = state => {
-  let { loaded, data, error } = state.data;
+  let { loaded, data, error } = state.users;
   return {
     loaded,
     data,
@@ -34,8 +34,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  loadData: dataActions.loadData
+  loadUsers: userActions.loadUsers
 }, dispatch);
 
-const connectedMyDashboard = connect(mapStateToProps, mapDispatchToProps)(MyDashboard);
-export { connectedMyDashboard as MyDashboard };
+const connectedMyUsers = connect(mapStateToProps, mapDispatchToProps)(MyUsers);
+export { connectedMyUsers as MyUsers };

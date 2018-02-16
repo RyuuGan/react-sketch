@@ -12,6 +12,7 @@ import List, { ListItem } from 'material-ui/List';
 import { NotFoundPage } from '../../notFoundPage';
 import { bindActionCreators } from 'redux';
 import { headerActions } from '../../../_actions/index';
+import { MyUsers } from './users';
 
 const drawerWidth = 240;
 
@@ -118,6 +119,7 @@ class MyLayout extends React.Component {
         <main className={classes.content}>
           <Switch>
             <Route path="/my/dashboard" component={MyDashboard}/>
+            <Route path="/my/users" component={MyUsers}/>
             <Redirect exact from='/my' to="/my/dashboard"/>
             <Route component={NotFoundPage}/>
           </Switch>
