@@ -8,6 +8,8 @@ import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import Icon from 'material-ui/Icon';
 import Hidden from 'material-ui/Hidden';
+import { userActions } from '../../_actions';
+import { bindActionCreators } from 'redux';
 
 import './styles.header.css';
 
@@ -44,6 +46,12 @@ class Header extends React.Component {
                       component={Link}>my</Button>
             )
           }
+          {
+            this.props.user && (
+              <Button color="inherit"
+                      onClick={this.props.logout}>Logout</Button>
+            )
+          }
         </Toolbar>
       </AppBar>
     </div>
@@ -59,6 +67,11 @@ function mapStateToProps(state) {
   };
 }
 
-let connectedHeader = connect(mapStateToProps)(Header);
+const mapDispatchToProps = dispatch => bindActionCreators({
+  logout: userActions.logout
+}, dispatch);
+
+
+let connectedHeader = connect(mapStateToProps, mapDispatchToProps)(Header);
 
 export { connectedHeader as Header }

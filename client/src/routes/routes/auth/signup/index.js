@@ -1,11 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { userActions } from '../../../../_actions/index';
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 import Card, { CardActions, CardContent, CardHeader } from 'material-ui/Card';
 import Button from 'material-ui/Button';
+import Snackbar from 'material-ui/Snackbar';
+import { bindActionCreators } from 'redux';
 
 class SignupPage extends React.Component {
   constructor(props) {
@@ -23,6 +25,7 @@ class SignupPage extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCloseSnackbar = this.handleCloseSnackbar.bind(this);
   }
 
   handleChange(event) {
@@ -41,17 +44,41 @@ class SignupPage extends React.Component {
 
     this.setState({ submitted: true });
     const { user } = this.state;
-    const { dispatch } = this.props;
     if (user.firstName && user.lastName && user.email && user.password) {
-      dispatch(userActions.register(user));
+      this.props.register(user);
     }
   }
 
+  handleCloseSnackbar() {
+    this.props.clearSignupError();
+  }
+
   render() {
-    // TODO: not implemented actual sign up
     const { user } = this.state;
+    const { from } = this.props.location.state || { from: { pathname: '/my' } };
+    const { error, loggedUser } = this.props;
+
+    if (loggedUser) {
+      return <Redirect to={from} />;
+    }
+
+    const isOpen = error && error.code === 'USER_ALREADY_EXISTS';
+
     return (
       <div>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          autoHideDuration={6000}
+          onClose={this.handleCloseSnackbar}
+          open={isOpen}
+          SnackbarContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">User with this email already exists.</span>}
+        />
         <ValidatorForm ref="form"
                        onSubmit={this.handleSubmit}>
           <Card className="login-form">
@@ -121,11 +148,19 @@ class SignupPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { registering } = state.registration;
+  const { user } = state.authentication;
+  const { registering, error } = state.registration;
   return {
-    registering
+    registering,
+    error,
+    loggedUser: user
   };
 }
 
-const connectedSignupPage = connect(mapStateToProps)(SignupPage);
+const mapDispatchToProps = dispatch => bindActionCreators({
+  register: userActions.register,
+  clearSignupError: userActions.clearSignupError
+}, dispatch);
+
+const connectedSignupPage = connect(mapStateToProps, mapDispatchToProps)(SignupPage);
 export { connectedSignupPage as SignupPage };

@@ -18,6 +18,11 @@ export function authentication(state = initialState, action) {
       return {
         error: action.error
       };
+    case userConstants.REGISTER_SUCCESS:
+      return {
+        loggedIn: true,
+        user: action.user
+      };
     case userConstants.LOGOUT:
       return {};
 

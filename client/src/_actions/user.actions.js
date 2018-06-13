@@ -1,11 +1,11 @@
 import { userConstants } from '../_constants';
-import { authService, userService } from '../_services';
-import { history } from '../store';
+import { authService } from '../_services';
 import { CALL_API } from '../_middlewares/api';
 
 export const userActions = {
   login,
   clearLoginError,
+  clearSignupError,
   logout,
   register,
   fetchPrincipal,
@@ -67,7 +67,7 @@ function login(email, password) {
 }
 
 function logout() {
-  userService.logout();
+  authService.logout();
   return { type: userConstants.LOGOUT };
 }
 
@@ -75,11 +75,10 @@ function register(user) {
   return dispatch => {
     dispatch(request(user));
 
-    userService.register(user)
+    authService.signup(user)
       .then(
         user => {
-          dispatch(success());
-          history.push('/login');
+          dispatch(success(user));
           // TODO: some alert stuff here
         },
         error => {
@@ -104,14 +103,25 @@ function register(user) {
 
 function clearLoginError() {
   return dispatch => {
-    dispatch(request());
+    dispatch(clear());
 
   };
 
-  function request() {
+  function clear() {
     return { type: userConstants.CLEAR_LOGIN_ERROR }
   }
 
+}
+
+function clearSignupError() {
+  return dispatch => {
+    dispatch(clear());
+
+  };
+
+  function clear() {
+    return { type: userConstants.CLEAR_SIGNUP_ERROR }
+  }
 }
 
 export function loadUsers() {

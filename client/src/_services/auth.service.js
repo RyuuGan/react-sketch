@@ -76,6 +76,21 @@ export class AuthService {
       .then(res => this.processServerLogin(res));
   }
 
+  signup(userData) {
+    let config = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(userData)
+    };
+
+    return fetch(api.scim('/signup'), config)
+      .then(res => res.json())
+      .catch(err => this.handleError(err))
+      .then(res => this.processServerLogin(res));
+  }
+
   unsetUser() {
     this.authenticated = false;
     this.principal = null;

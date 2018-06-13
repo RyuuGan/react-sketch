@@ -69,10 +69,11 @@ class MyLayout extends React.Component {
 
   render() {
 
-    const { classes, theme } = this.props;
+    const { classes, theme, user } = this.props;
 
     const drawer = (
       <div>
+        <h1>{user.title}</h1>
         <List>
           <ListItem button
                     component={NavLink}

@@ -12,6 +12,7 @@ module.exports = new express.Router();
  */
 
 require('./login');
+require('./signup');
 
 // Auth associated routes
 
